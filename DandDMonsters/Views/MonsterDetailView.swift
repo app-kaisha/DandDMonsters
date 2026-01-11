@@ -49,6 +49,36 @@ struct MonsterDetailView: View {
                 }
                 .font(.title)
                 
+                
+                // Image
+                    AsyncImage(url: URL(string: monsterDetailVM.imageURL)) { phase in
+                        if let image = phase.image {
+                            // image available
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                .shadow(radius: 16)
+                        } else if phase.error != nil {
+                            // No Image
+                            Image(systemName: "questionmark.square.dashed")
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                .shadow(radius: 16)
+                        } else {
+                            // loading
+                            VStack {
+                                Spacer()
+                                ProgressView()
+                                    .tint(.red)
+                                    .scaleEffect(4)
+                                Spacer()
+                            }
+                            
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
                 Spacer()
             }
             .padding(.horizontal)

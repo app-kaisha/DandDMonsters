@@ -17,7 +17,7 @@ class MonsterDetailViewModel {
     var type: String = ""
     var alignment: String = ""
     var hitPoints: Int = 0
-    var imageURL: String? = ""
+    var imageURL: String = ""
     
     var urlString = ""
     var isLoading = false
