@@ -13,6 +13,9 @@ struct DandDMonstersApp: App {
     var body: some Scene {
         WindowGroup {
             MonstersListView()
+//                .onAppear {
+//                    Thread.sleep(forTimeInterval: 3.0)
+//                }
         }
     }
 }

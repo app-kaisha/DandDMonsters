@@ -14,20 +14,29 @@ struct MonstersListView: View {
     
     var body: some View {
         NavigationStack {
-            List(monstersVM.monsters) { monster in
-                NavigationLink {
-                    // TODO: add link view
-                } label: {
-                    Text(monster.name)
-                        .font(.title2)
+            ZStack {
+                
+                List(monstersVM.monsters) { monster in
+                    NavigationLink {
+                        // TODO: add link view
+                    } label: {
+                        Text(monster.name)
+                            .font(.title2)
+                    }
+                }
+                .listStyle(.plain)
+                
+                if monstersVM.isLoading {
+                    ProgressView()
+                        .tint(.red)
+                        .scaleEffect(4)
                 }
             }
-            .listStyle(.plain)
-        }
-        .navigationTitle("Monsters:")
-        .toolbar {
-            ToolbarItem(placement: .status) {
-                Text("\(monstersVM.count) Monsters")
+            .navigationTitle("Monsters:")
+            .toolbar {
+                ToolbarItem(placement: .status) {
+                    Text("\(monstersVM.count) Monsters")
+                }
             }
         }
         .task {
