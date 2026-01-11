@@ -12,7 +12,7 @@ import SwiftUI
 struct DandDMonstersApp: App {
     var body: some Scene {
         WindowGroup {
-            MonstersView()
+            MonstersListView()
         }
     }
 }
