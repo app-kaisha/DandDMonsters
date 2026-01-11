@@ -1,27 +1,32 @@
 //
-//  MonstersViewModel.swift
+//  MonsterDetailViewModel.swift
 //  DandDMonsters
 //
 //  Created by app-kaihatsusha on 11/01/2026.
 //  Copyright © 2026 app-kaihatsusha. All rights reserved.
 //
+// "https://www.dnd5eapi.co" + "/api/2014/monsters/adult-gold-dragon"
 
 import Foundation
 
 @Observable
-class MonstersViewModel {
+class MonsterDetailViewModel {
     
-    private struct Returned: Codable {
-        var count: Int
-        var results: [Monster]
-    }
+    var name: String = ""
+    var size: String = ""
+    var type: String = ""
+    var alignment: String = ""
+    var hitPoints: Int = 0
+    var imageURL: String? = ""
     
-    var count = 0
-    var monsters: [Monster] = []
-    var urlString = "https://www.dnd5eapi.co/api/2014/monsters"
+    var urlString = ""
     var isLoading = false
+    let baseURL = "https://www.dnd5eapi.co"
+    var monsterURL = ""
     
     func getData() async {
+        
+        urlString = baseURL+monsterURL
         
         isLoading = true
         print("🕸️ We are accessing the url \(urlString)")
@@ -41,17 +46,21 @@ class MonstersViewModel {
             let (data, _) = try await URLSession.shared.data(from: url)
             
             // decode JSON into data structure
-            guard let returned = try? JSONDecoder().decode(Returned.self, from: data) else {
+            guard let returned = try? JSONDecoder().decode(MonsterDetail.self, from: data) else {
                 print("😡 JSON ERROR: Could not decode returned JSON data")
                 isLoading = false
                 return
             }
             
             // Confirm data was decoded:
-            print("😎 JSON returned! count: \(returned.count)")
+            print("😎 JSON returned! name: \(returned.name)")
             Task { @MainActor in
-                self.count = returned.count
-                self.monsters = returned.results
+                self.name = returned.name
+                self.size = returned.size
+                self.type = returned.type
+                self.alignment = returned.alignment
+                self.hitPoints = returned.hit_points
+                self.imageURL = self.baseURL + (returned.image ?? "")
                 isLoading = false
             }
         } catch {
@@ -59,4 +68,5 @@ class MonstersViewModel {
             print("😡 ERROR: Could not get data from \(urlString) \(error.localizedDescription)")
         }
     }
+    
 }

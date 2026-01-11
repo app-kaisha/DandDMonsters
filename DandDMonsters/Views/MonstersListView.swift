@@ -18,7 +18,7 @@ struct MonstersListView: View {
                 
                 List(monstersVM.monsters) { monster in
                     NavigationLink {
-                        // TODO: add link view
+                        MonsterDetailView(monster: monster)
                     } label: {
                         Text(monster.name)
                             .font(.title2)
